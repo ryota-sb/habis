@@ -1,0 +1,123 @@
+<template>
+  <div>
+    <v-container>
+      <!-- タスク表示 -->
+      <v-row>
+        <v-col>
+          <v-card color="#EEEEEE">
+            <v-toolbar
+              color="#ECD273"
+              dark
+              dense
+              flat
+            >
+              <v-toolbar-title>今日のタスク</v-toolbar-title>
+            </v-toolbar>
+            <v-container>
+              <v-row dense>
+                <v-col
+                  v-for="(task, index) in doneTasks()"
+                  :key="task.id"
+                  :cols="12"
+                >
+                  <v-card flat>
+                    <v-card-text>
+                      <v-btn text icon @click="updateTask(task.id, index)">
+                        <v-icon color="#70C1B3">check_circle_outline</v-icon>
+                      </v-btn>
+                      {{ task.content }} / {{ task.notification_time | moment }}開始
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- 完了タスク -->
+      <v-row>
+        <v-col>
+          <v-card color="#EEEEEE">
+            <v-toolbar
+              color="red lighten-2"
+              dark
+              dense
+              flat
+            >
+              <v-toolbar-title>完了</v-toolbar-title>
+            </v-toolbar>
+            <v-container>
+              <v-row dense>
+                <v-col
+                   v-for="(task, index) in notDoneTasks()"
+                  :key="task.id"
+                  :cols="12"
+                >
+                  <v-card flat>
+                    <v-card-text>
+                      <v-btn text icon color="red lighten-2" @click="deleteTask(task.id, index)">
+                        <v-icon color="red">remove_circle_outline</v-icon>
+                      </v-btn>
+                      {{ task.content }}
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import moment from 'moment'
+import { mapState } from 'vuex'
+export default {
+  name: 'TodayTask',
+  mounted() {
+    this.$store.dispatch('tasks/getTasksAction')
+  },
+  computed: {
+    ...mapState({
+      tasks: state => state.tasks.tasks,
+      user_id: state => state.auth.user.id
+    })
+  },
+  methods: {
+    updateTask(task_id) {
+      this.$store.dispatch('tasks/updateTaskAction', { task_id })
+    },
+    deleteTask(task_id, index) {
+      this.$store.dispatch('tasks/deleteTaskAction', { task_id, index })
+    },
+    doneTasks() {
+      const date = new Date()
+      const week = date.getDay()
+      const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      const user_id = this.user_id
+      const tasks = this.tasks
+      if(Object.keys(tasks).length) {
+        return tasks.filter(task => !task.is_done && task.week == weeks[week] && task.user_id == user_id)
+      }
+    },
+    notDoneTasks() {
+      const date = new Date()
+      const week = date.getDay()
+      const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      const user_id = this.user_id
+      const tasks = this.tasks
+      if(Object.keys(tasks).length) {
+        return tasks.filter(task => task.is_done && task.week == weeks[week] && task.user_id == user_id)
+      }
+    }
+  },
+  filters: {
+    moment(date) {
+      return moment(date).format('HH:mm')
+    }
+  }
+}
+</script>
