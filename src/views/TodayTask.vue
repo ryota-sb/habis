@@ -16,8 +16,8 @@
             <v-container>
               <v-row dense>
                 <v-col
-                  v-for="(task, index) in doneTasks()"
-                  :key="task.id"
+                  v-for="(task, i, index) in doneTasks()"
+                  :key="i"
                   :cols="12"
                 >
                   <v-card flat>
@@ -50,8 +50,8 @@
             <v-container>
               <v-row dense>
                 <v-col
-                   v-for="(task, index) in notDoneTasks()"
-                  :key="task.id"
+                   v-for="(task, i, index) in notDoneTasks()"
+                  :key="i"
                   :cols="12"
                 >
                   <v-card flat>
@@ -76,7 +76,6 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 export default {
-  name: 'TodayTask',
   mounted() {
     this.$store.dispatch('tasks/getTasksAction')
   },
@@ -97,9 +96,9 @@ export default {
       const date = new Date()
       const week = date.getDay()
       const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      const tasks = this.tasks.data
       const user_id = this.user_id
-      const tasks = this.tasks
-      if(Object.keys(tasks).length) {
+      if (tasks.length) {
         return tasks.filter(task => !task.is_done && task.week == weeks[week] && task.user_id == user_id)
       }
     },
@@ -107,9 +106,9 @@ export default {
       const date = new Date()
       const week = date.getDay()
       const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      const tasks = this.tasks.data
       const user_id = this.user_id
-      const tasks = this.tasks
-      if(Object.keys(tasks).length) {
+      if (tasks.length) {
         return tasks.filter(task => task.is_done && task.week == weeks[week] && task.user_id == user_id)
       }
     }
