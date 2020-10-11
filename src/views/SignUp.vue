@@ -69,7 +69,6 @@
 
 <script>
 export default {
-  name: 'signup',
   data() {
     return {
       title: 'ユーザー登録',
@@ -106,7 +105,7 @@ export default {
         this.name = ''
         this.email = ''
         this.password = ''
-        this.overlay = false 
+        this.overlay = false
       }
     }
   }

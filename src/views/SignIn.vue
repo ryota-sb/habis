@@ -9,7 +9,7 @@
             flat
             dense
           >
-            <v-toolbar-title>ログイン</v-toolbar-title>
+            <v-toolbar-title v-text="title" />
           </v-toolbar>
           <v-col>
             <v-form ref="valid_form">
@@ -17,35 +17,39 @@
                 v-model="email"
                 label="メールアドレス"
                 color="#70C1B3"
-              >
-              </v-text-field>
+              />
               <v-text-field
                 v-model="password"
                 label="パスワード"
                 color="#70C1B3"
-              >
-              </v-text-field>
-              <v-btn
-                block
-                @click="signIn"
-              >
-                ログイン
-              </v-btn>
+              />
             </v-form>
+            <v-btn block @click="signIn()">ログイン</v-btn>
           </v-col>
         </v-card>
       </v-col>
     </v-row>
+
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        v-if="!loading"
+        indeterminate
+        :size="80"
+        :width="10"
+      />
+    </v-overlay>
   </v-container>
 </template>
 
 <script>
 export default {
-  name: 'signin',
   data() {
     return {
+      title: 'ログイン',
       email: '',
-      password: ''
+      password: '',
+      loading: false,
+      overlay: false
     }
   },
   methods: {
@@ -55,9 +59,11 @@ export default {
         password: this.password
       }
       if (this.$refs.valid_form.validate()) {
+        this.overlay = true
         this.$store.dispatch('auth/signIn', params)
         this.email = ''
         this.password = ''
+        this.overlay = false
       }
     }
   }
