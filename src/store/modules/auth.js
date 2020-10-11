@@ -2,12 +2,10 @@ import axios    from 'axios'
 import cookie   from 'vue-cookies'
 import router   from '../../router/index'
 import RestAPI  from '../../plugins/rest_api'
-// import { pick } from 'lodash'
 
 export const auth = {
   namespaced: true,
   state: {
-    users: [],
     user: null,
     auth: {}
   },
@@ -22,38 +20,34 @@ export const auth = {
     auth(state, value) {
       state.auth = value
     },
-    login(state, user) {
-      state.users = user
-    },
     logout(state) {
       state.auth = {}
     }
   },
   actions: {
-    signUp({ commit }, params) {
-      const instance = axios.creata({
+    async signUp({ dispatch }, params) {
+      const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      instance.post('api/auth', params).then(response => {
-        commit('login', response.data)
-        router.push({ name: 'signin' })
+      await instance.post('api/auth', params).then(response => {
+        dispatch('signIn', params)
+        console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
     },
-    signIn({ commit }, params) {
+    async signIn({ commit }, params) {
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      instance.post('api/auth/sign_in', params).then(response => {
-        // const authHeaders = pick(response.headers, ["access-token", "client", "uid", "expiry", "token-type"])
-        const authHeaders = response.headers
-        console.log(authHeaders)
+      await instance.post('api/auth/sign_in', params).then(response => {
+        const authToken = response.headers
+        console.log(authToken)
         commit('user', response.data.data)
-        commit('auth', authHeaders)
+        commit('auth', authToken)
         // cookieへ書き込み
         const contents = {
-          tokens: authHeaders,
+          tokens: authToken,
           user: response.data.data
         }
         cookie.set('session', JSON.stringify(contents), { expire: '14D' })
@@ -62,11 +56,11 @@ export const auth = {
         console.log(error)
       })
     },
-    signOut({ commit }, params) {
+    async signOut({ commit }, params) {
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      instance.delete('api/auth/sign_out', { headers: params }).then(response => {
+      await instance.delete('api/auth/sign_out', { headers: params }).then(response => {
         commit('logout')
         router.push({ name: 'signin' })
         console.log(response)
