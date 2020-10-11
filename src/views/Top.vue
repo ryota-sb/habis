@@ -24,24 +24,23 @@
                 block
                 outlined
                 color="purple"
-                @click="testSignIn"
+                @click="testSignIn()"
               >
                 テストログイン
               </v-btn>
             </v-list>
 
             <v-list
-              v-for="btn in buttons"
-              :key="btn.name"
+              v-for="(btn, i) in buttons"
+              :key="i"
             >
               <v-btn
                 block
                 outlined
                 :to="btn.link"
-                :style="{ color: btn.color }"
-              >
-                {{ btn.name }}
-              </v-btn>
+                :color="btn.color"
+                v-text="btn.name"
+              />
             </v-list>
           </v-col>
         </v-row>
