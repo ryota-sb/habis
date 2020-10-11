@@ -16,8 +16,8 @@
             <v-container>
               <v-row dense>
                 <v-col
-                  v-for="(task, index) in doneTasks()"
-                  :key="task.id"
+                  v-for="(task, i, index) in doneTasks()"
+                  :key="i"
                   :cols="12"
                 >
                   <v-card flat>
@@ -54,8 +54,8 @@
             <v-container>
               <v-row dense>
                 <v-col
-                   v-for="(task, index) in notDoneTasks()"
-                  :key="task.id"
+                   v-for="(task, i, index) in notDoneTasks()"
+                  :key="i"
                   :cols="12"
                 >
                   <v-card flat>
@@ -81,7 +81,6 @@ import AddTask from '../../components/AddTask.vue'
 import moment from 'moment'
 import { mapState } from 'vuex'
 export default {
-  name: 'Monday',
   components: { AddTask }, 
   mounted() {
     this.$store.dispatch('tasks/getTasksAction')
@@ -95,7 +94,7 @@ export default {
   methods: {
     createTask(newTask, time) {
       const user_id = this.user_id
-      this.$store.dispatch('tasks/createTaskAction', { newTask: newTask, week: 'monday', time: time, user_id: user_id  })
+      this.$store.dispatch('tasks/createTaskAction', { newTask: newTask, week: 'monday', time: time, user_id: user_id })
     },
     updateTask(task_id) {
       this.$store.dispatch('tasks/updateTaskAction', { task_id })
@@ -104,16 +103,16 @@ export default {
       this.$store.dispatch('tasks/deleteTaskAction', { task_id, index })
     },
     doneTasks() {
-      const tasks = this.tasks
+      const tasks = this.tasks.data
       const user_id = this.user_id
-      if(Object.keys(tasks).length) {
+      if (tasks.length) {
         return tasks.filter(task => !task.is_done && task.week == "monday" && task.user_id == user_id)
       }
     },
     notDoneTasks() {
-      const tasks = this.tasks
+      const tasks = this.tasks.data
       const user_id = this.user_id
-      if(Object.keys(tasks).length) {
+      if (tasks.length) {
         return tasks.filter(task => task.is_done && task.week == "monday" && task.user_id == user_id)
       }
     }
