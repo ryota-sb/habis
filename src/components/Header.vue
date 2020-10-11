@@ -6,11 +6,11 @@
           <v-list>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>{{ user }}</v-list-item-title>
+                <v-list-item-title v-text="user" />
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-divider></v-divider>
+          <v-divider />
         </div>
 
         <v-list
@@ -23,10 +23,10 @@
             :to="list.link"
           >
             <v-list-item-icon>
-              <v-icon>{{ list.icon }}</v-icon>
+              <v-icon v-text="list.icon" />
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ list.name }}</v-list-item-title>
+              <v-list-item-title v-text="list.name" />
             </v-list-item-content>
           </v-list-item>
           
@@ -37,10 +37,10 @@
               :to="list.link"
             >
               <v-list-item-icon>
-                <v-icon>{{ list.icon }}</v-icon>
+                <v-icon v-text="list.icon" />
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ list.name }}</v-list-item-title>
+                <v-list-item-title v-text="list.name" />
               </v-list-item-content>
             </v-list-item>
           </div>
