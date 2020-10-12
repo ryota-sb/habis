@@ -9,8 +9,8 @@
           height="100%"
           flat
         >
-          <h1 class="font-weight-thin display-4 text-center">Task<br v-if="$vuetify.breakpoint.xsOnly"> Notify</h1>
-          <v-card-subtitle class="text-center">- タスクをLINEで通知。-</v-card-subtitle>
+          <h1 class="font-weight-thin display-4 text-center">Route</h1>
+          <v-card-subtitle class="text-center">- やるべきことを習慣化。-</v-card-subtitle>
         </v-card>
       </v-col>
       <v-col

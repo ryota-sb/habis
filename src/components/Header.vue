@@ -59,8 +59,8 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar app dark clipped-left color="#70C1B3">
-      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Task Notify</v-toolbar-title>
+      <v-app-bar-nav-icon @click="drawer=!drawer" />
+      <v-toolbar-title v-text="title" />
     </v-app-bar>
   </div>
 </template>
@@ -70,6 +70,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
+      title: 'Route',
       drawer: false,
       nav_lists: [
         { name: 'トップ',             icon: 'mdi-home',            link: '/' },
