@@ -2,8 +2,8 @@ import Vue   from 'vue'
 import Vuex  from 'vuex'
 import createPersistedState from "vuex-persistedstate"
 
-import { auth }  from './modules/auth'
-import { tasks } from './modules/task'
+import auth from './modules/auth'
+import tasks from './modules/task'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,5 +12,7 @@ export default new Vuex.Store({
     tasks
   },
   // stateの状態をリロードしても保持する
-  plugins: [createPersistedState({ storage: window.sessionStorage })]
+  plugins: [createPersistedState({
+    storage: window.sessionStorage
+  })]
 });
