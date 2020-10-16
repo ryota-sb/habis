@@ -1,8 +1,8 @@
-import axios  from 'axios'
-import router from '../../router/index'
+import axios from 'axios'
 import RestAPI from '../../plugins/rest_api'
 
-export const tasks = {
+
+const tasks = {
   namespaced: true,
   state: {
     tasks: []
@@ -15,59 +15,59 @@ export const tasks = {
       state.tasks = value
     },
     createTask(state, value) {
-      // state.tasks.push(value)
-      console.log(value)
+      state.tasks.data.push(value)
     },
     updateTask(state, value) {
       state.tasks = value
     },
     deleteTask(state, index) {
-      state.tasks.splice(index, 1)
+      state.tasks.data.splice(index, 1)
     }
   },
   actions: {
-    async getTasksAction({ commit }) {
+    async getTasksAction({ commit, rootState }) {
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      await instance.get('/api/v1/tasks').then((response) => {
+      await instance.get('/api/v1/tasks', { headers: rootState.auth.auth  } ).then((response) => {
         commit('getTasks', response.data)
       }).catch((error) => {
         console.log(error)
       })
     },
-    async createTaskAction({ commit }, { newTask, week, time, user_id }) {
+    async createTaskAction({ commit, rootState }, { newTask, week, time, user_id }) {
       if (newTask == null || newTask.length > 40) return
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      await instance.post('/api/v1/tasks', { task: { content: newTask, week: week, notification_time: time, user_id: user_id } }).then((response) => {
+      await instance.post('/api/v1/tasks', { task: { content: newTask, week: week, notification_time: time, user_id: user_id } }, { headers: rootState.auth.auth  }).then((response) => {
         commit('createTask', response.data)
       }).catch((error) => {
         console.log(error)
       })
     },
-    async updateTaskAction({ commit }, { task_id }) {
+    async updateTaskAction({ commit, rootState }, { task_id }) {
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      await instance.put('/api/v1/tasks/' + task_id).then((response) => {
+      await instance.put('/api/v1/tasks/' + task_id, { headers: rootState }).then((response) => {
         commit('updateTask', response.data)
-        router.go({ path: router.currentRoute.path, force: true })
       }).catch((error) => {
         console.log(error)
       })
     },
-    async deleteTaskAction({ commit }, { task_id, index }) {
+    async deleteTaskAction({ commit, rootState }, { task_id, index }) {
       const instance = axios.create({
         baseURL: RestAPI.url()
       })
-      await instance.delete('/api/v1/tasks/' + task_id).then((response) => {
+      await instance.delete('/api/v1/tasks/' + task_id, { headers: rootState.auth.auth }).then((response) => {
         commit('deleteTask', index)
-        console.log(response)
+        console.log(response.data.data)
       }).catch((error) => {
         console.log(error)
       })
     }
   }
 }
+
+export default tasks
