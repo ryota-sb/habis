@@ -1,25 +1,51 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
+    <v-row justify="center">
+      <v-col
+        xs="12"
+        sm="12"
+        md="10"
+        lg="10"
+      >
+    <v-timeline dense>
+      <v-timeline-item
+        v-for="(content, i) in contents"
+        :key="i"
+        :color="content.color"
+      >
         <v-card>
-          <v-toolbar
-          dark
-          flat
-          dense
-          color="primary"
-          >
-            <v-toolbar-title>Task Notifyについて</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>追加したタスクを曜日ごとにLineで通知してくれます。</v-card-text>
-          <v-card-text>Lineの友達追加が必要です。</v-card-text>
-          <v-card-text>各曜日に追加できるタスクは、最大5個です。</v-card-text>
-          <v-card-text>もっとも継続していきたいタスクを追加しよう！</v-card-text>
+          <v-card-title class="title" v-text="content.title" />
           <v-card-text>
-            <img src="https://qr-official.line.me/sid/L/476qfyrd.png" class="qrcode">
+            {{ content.text }}
           </v-card-text>
+          <v-card-actions>
+          <v-btn
+              v-if="i == 0"
+              class="green light-1"
+              dark
+            >
+              LINE 友達登録
+            </v-btn>
+          </v-card-actions>
         </v-card>
+      </v-timeline-item>
+    </v-timeline>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      contents: [
+        { title: 'LINE友達登録', text: 'まずは、LINE友達登録!', color: 'green' },
+        { title: 'タスクセット', text: '曜日ごとのタスクと通知時間をセット!', color: '#ECD273' },
+        { title: 'タスク確認', text: 'タスクの進行確認!', color: '#247BA0' },
+        { title: '設定時間に通知', text: 'LINEでタスクの通知!', color: '#FF7854' }
+      ]
+    }
+  } 
+}
+</script>
