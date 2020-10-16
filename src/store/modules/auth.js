@@ -3,11 +3,11 @@ import cookie   from 'vue-cookies'
 import router   from '../../router/index'
 import RestAPI  from '../../plugins/rest_api'
 
-export const auth = {
+const auth = {
   namespaced: true,
   state: {
     user: null,
-    auth: {}
+    auth: null
   },
   getters: {
     user: state => state.user,
@@ -21,7 +21,7 @@ export const auth = {
       state.auth = value
     },
     logout(state) {
-      state.auth = {}
+      state.auth = null
     }
   },
   actions: {
@@ -41,13 +41,17 @@ export const auth = {
         baseURL: RestAPI.url()
       })
       await instance.post('api/auth/sign_in', params).then(response => {
-        const authToken = response.headers
-        console.log(authToken)
+        const token = {
+          "access-token": response.headers['access-token'],
+          "client": response.headers['client'],
+          "uid": response.headers['uid'],
+          "expiry": response.headers['expiry']
+        }
         commit('user', response.data.data)
-        commit('auth', authToken)
+        commit('auth', token)
         // cookieへ書き込み
         const contents = {
-          tokens: authToken,
+          tokens: token,
           user: response.data.data
         }
         cookie.set('session', JSON.stringify(contents), { expire: '14D' })
@@ -63,10 +67,12 @@ export const auth = {
       await instance.delete('api/auth/sign_out', { headers: params }).then(response => {
         commit('logout')
         router.push({ name: 'signin' })
-        console.log(response)
+        console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
     }
   }
 }
+
+export default auth
