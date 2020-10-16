@@ -1,84 +1,84 @@
 <template>
   <v-row justify="center" dense>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
         <v-col :cols="12">
         <v-btn
           block
-          depressed
-          color="white"
+          outlined
+          dark
+          color="#247BA0"
           dense
           v-on="on"
         >
-          <v-icon>add</v-icon>
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
         </v-col>
       </template>
       <v-card>
         <v-toolbar
-          color="#70C1B3"
+          color="#247BA0"
           dark
           dense
           flat
         >
           <v-toolbar-title>タスク追加</v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-form ref="valid_form">
-                  <v-text-field
-                    v-model="newTask"
-                    label="タスクを入力して下さい"
-                    color="#70C1B3"
-                    :rules="[required_content, limit_length]"
-                    counter="40"
-                  >
-                  </v-text-field>
-                  <template>
-                    <v-row>
-                      <v-col>
-                        <v-dialog
-                          ref="dialog"
-                          v-model="modal2"
-                          :return-value.sync="time"
-                          persistent
-                          width="290px"
-                        >
-                          <template v-slot:activator="{ on }">
-                            <v-text-field
-                              v-model="time"
-                              label="タスクの開始時間を入力してください"
-                              color="#70C1B3"
-                              readonly
-                              v-on="on"
-                            ></v-text-field>
-                          </template>
-                          <v-time-picker
-                            v-if="modal2"
+        <v-card-text class="pb-0">
+          <v-row>
+            <v-col>
+              <v-form ref="valid_form">
+                <v-text-field
+                  v-model="newTask"
+                  label="タスクを入力して下さい"
+                  color="#247BA0"
+                  :rules="[required_content, limit_length]"
+                  counter="40"
+                >
+                </v-text-field>
+                <template>
+                  <v-row>
+                    <v-col>
+                      <v-dialog
+                        ref="dialog"
+                        v-model="modal2"
+                        :return-value.sync="time"
+                        persistent
+                        width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
                             v-model="time"
-                            full-width
-                            ampm-in-title
-                          >
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="modal2 = false">閉じる</v-btn>
-                            <v-btn text color="primary" @click="$refs.dialog.save(time)">追加</v-btn>
-                          </v-time-picker>
-                        </v-dialog>
-                      </v-col>
-                    </v-row>
-                  </template>
-                </v-form>
-              </v-col>
-            </v-row>
-          </v-container>
+                            label="タスクの開始時間を入力してください"
+                            color="#247BA0"
+                            readonly
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-time-picker
+                          v-if="modal2"
+                          v-model="time"
+                          full-width
+                          ampm-in-title
+                          color="#247BA0"
+                        >
+                          <v-btn text color="#247BA0" @click="modal2 = false">閉じる</v-btn>
+                          <v-spacer />
+                          <v-btn text color="#247BA0" @click="$refs.dialog.save(time)">追加</v-btn>
+                        </v-time-picker>
+                      </v-dialog>
+                    </v-col>
+                  </v-row>
+                </template>
+              </v-form>
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">閉じる</v-btn>
+          <v-btn color="#247BA0" text @click="dialog = false">閉じる</v-btn>
+          <v-spacer />
           <v-btn
-            color="blue darken-1"
+            color="#247BA0"
             text
             :disabled="newTask && time ? disabled = false : disabled"
             @click="addTask()"

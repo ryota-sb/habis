@@ -1,8 +1,18 @@
 <template>
   <div>
-    <v-navigation-drawer app v-model="drawer" clipped>
+    <v-app-bar app dense clipped-left color="white">
+      <v-toolbar-title class="font-weight-thin" v-text="title" />
+      <v-spacer />
+      <v-app-bar-nav-icon @click="drawer=!drawer" class="float--right" />
+    </v-app-bar>
+    <v-navigation-drawer
+      app
+      
+      v-model="drawer"
+      :right="true"
+    >
       <v-card flat>
-        <div v-if="Object.keys(auth).length">
+        <div v-if="auth">
           <v-list>
             <v-list-item>
               <v-list-item-content>
@@ -30,7 +40,7 @@
             </v-list-item-content>
           </v-list-item>
           
-          <div v-if="Object.keys(auth).length">
+          <div v-if="auth">
             <v-list-item
               v-for="list in nav_lists_auth"
               :key='list.name'
@@ -50,7 +60,7 @@
         <div class="pa-2">
           <v-btn 
             block
-            v-if="Object.keys(auth).length"
+            v-if="auth"
             @click="signOut"
           >
             Logout
@@ -58,10 +68,6 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-app-bar app dark clipped-left color="#70C1B3">
-      <v-app-bar-nav-icon @click="drawer=!drawer" />
-      <v-toolbar-title v-text="title" />
-    </v-app-bar>
   </div>
 </template>
 
@@ -74,11 +80,11 @@ export default {
       drawer: false,
       nav_lists: [
         { name: 'トップ',             icon: 'mdi-home',            link: '/' },
-        { name: 'アプリについて',     icon: 'mdi-contact_support', link: '/about' },
+        { name: 'アプリについて',     icon: 'mdi-information-outline', link: '/about' },
       ],
       nav_lists_auth: [
-        { name: '週間のタスクセット', icon: 'mdi-assignment', link: '/weektask' },
-        { name: '今日のタスク',       icon: 'mdi-note',       link: '/todaytask' }
+        { name: 'タスクセット', icon: 'mdi-calendar-edit', link: '/weektask' },
+        { name: '今日のタスク',       icon: 'mdi-calendar',       link: '/todaytask' }
       ]
     }
   },
