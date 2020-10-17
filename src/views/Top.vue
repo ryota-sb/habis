@@ -59,6 +59,9 @@ export default {
       ]
     }
   },
+  mounted() {
+    alert(process.env.VUE_APP_BASE_URL)
+  },
   methods: {
     testSignIn() {
       const test_user = {
