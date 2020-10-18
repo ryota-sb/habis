@@ -1,7 +1,6 @@
 import axios    from 'axios'
 import cookie   from 'vue-cookies'
 import router   from '../../router/index'
-import RestAPI  from '../../plugins/rest_api'
 
 const auth = {
   namespaced: true,
@@ -26,10 +25,7 @@ const auth = {
   },
   actions: {
     async signUp({ dispatch }, params) {
-      const instance = axios.create({
-        baseURL: RestAPI.url()
-      })
-      await instance.post('api/auth', params).then(response => {
+      await axios.post('api/auth', params).then(response => {
         dispatch('signIn', params)
         console.log(response.data)
       }).catch(error => {
@@ -37,10 +33,7 @@ const auth = {
       })
     },
     async signIn({ commit }, params) {
-      const instance = axios.create({
-        baseURL: RestAPI.url()
-      })
-      await instance.post('api/auth/sign_in', params).then(response => {
+      await axios.post('api/auth/sign_in', params).then(response => {
         const token = {
           "access-token": response.headers['access-token'],
           "client": response.headers['client'],
@@ -61,10 +54,7 @@ const auth = {
       })
     },
     async signOut({ commit }, params) {
-      const instance = axios.create({
-        baseURL: RestAPI.url()
-      })
-      await instance.delete('api/auth/sign_out', { headers: params }).then(response => {
+      await axios.delete('api/auth/sign_out', { headers: params }).then(response => {
         commit('logout')
         router.push({ name: 'signin' })
         console.log(response.data)
