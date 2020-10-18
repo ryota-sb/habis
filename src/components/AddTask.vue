@@ -5,7 +5,6 @@
         <v-col :cols="12">
           <v-btn
             absolute
-            bottom
             right
             fab
             dark

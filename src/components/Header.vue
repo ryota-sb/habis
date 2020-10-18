@@ -12,16 +12,17 @@
       :right="true"
     >
       <v-card flat>
-        <div v-if="auth">
-          <v-list>
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title v-text="user" />
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+        <v-list nav dense v-if="auth">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+             <v-list-item-title v-text="user" />
+            </v-list-item-content>
+          </v-list-item>
           <v-divider />
-        </div>
+        </v-list>
 
         <v-list
           dense
@@ -53,20 +54,18 @@
                 <v-list-item-title v-text="list.name" />
               </v-list-item-content>
             </v-list-item>
+
+            <v-list-item @click="signOut()">
+              <v-list-item-icon>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>ログアウト</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </div>
         </v-list>
       </v-card>
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn 
-            block
-            v-if="auth"
-            @click="signOut"
-          >
-            Logout
-          </v-btn>
-        </div>
-      </template>
     </v-navigation-drawer>
   </div>
 </template>
