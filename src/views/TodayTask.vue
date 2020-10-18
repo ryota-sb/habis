@@ -54,14 +54,18 @@ export default {
       this.$store.dispatch('tasks/getTasksAction')
     },
     getTaskList() {
-      const date = new Date()
-      const week = date.getDay()
-      const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      const todayWeek = this.getWeek()
       const tasks = this.tasks
       const user_id = this.user_id
       if (tasks.length) {
-        return tasks.filter(task => task.week == weeks[week] && task.user_id == user_id)
+        return tasks.filter(task => task.week == todayWeek && task.user_id == user_id)
       }
+    },
+    getWeek() {
+      const date = new Date()
+      const week = date.getDay()
+      const weeks = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+      return weeks[week]
     }
   },
   filters: {
