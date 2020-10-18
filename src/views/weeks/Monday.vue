@@ -19,14 +19,12 @@
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col>
-            <!-- タスク追加フォーム -->
-              <AddTask @add="createTask" />
-            </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
+    <!-- タスク追加ボタン -->
+    <AddTask @add="createTask" />
   </v-container>
 </template>
 

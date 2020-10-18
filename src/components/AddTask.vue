@@ -3,16 +3,19 @@
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
         <v-col :cols="12">
-        <v-btn
-          block
-          outlined
-          dark
-          color="#247BA0"
-          dense
-          v-on="on"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+          <v-btn
+            absolute
+            bottom
+            right
+            fab
+            dark
+            dense
+            color="#247BA0"
+            class="mb-5"
+            v-on="on"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
         </v-col>
       </template>
       <v-card>
