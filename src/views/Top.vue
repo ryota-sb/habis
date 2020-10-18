@@ -59,10 +59,6 @@ export default {
       ]
     }
   },
-  mounted() {
-    alert(process.env.VUE_APP_BASE_URL)
-    alert(process.env.NODE_ENV)
-  },
   methods: {
     testSignIn() {
       const test_user = {
