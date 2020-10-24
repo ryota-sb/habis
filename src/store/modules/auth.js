@@ -21,13 +21,14 @@ const auth = {
     },
     logout(state) {
       state.auth = null
+      state.user = null
     }
   },
   actions: {
-    async signUp({ dispatch }, params) {
+    async signUp({ commit, dispatch }, params) {
       await axios.post('api/auth', params).then(response => {
+        commit('user', response.data.data)
         dispatch('signIn', params)
-        console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
