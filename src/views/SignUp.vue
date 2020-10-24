@@ -1,28 +1,14 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <v-alert
-          border="left"
-          color="#247BA0"
-          dark
-        >
-          登録が完了しました！
-        </v-alert>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-toolbar
-            color="#247BA0"
-            dark
-            flat
-            dense
-          >
-            <v-toolbar-title v-text="title" />
-          </v-toolbar>
+  <v-container fill-height>
+    <v-row justify="center" align="center">
+      <v-col
+        xs="12"
+        sm="12"
+        md="6"
+        lg="6"
+      >
+        <v-card flat>
+          <h1 class="text-center font-weight-thin">新規登録</h1>
           <v-col>
             <v-form
               ref="valid_form"
@@ -30,27 +16,27 @@
             >
               <v-text-field
                 v-model="name"
-                label="ユーザー名"
-                color="#70C1B3"
-                counter="20"
+                label="Name"
+                color="#247BA0"
                 :rules="nameRules"
               />
               <v-text-field
                 v-model="email"
-                label="メールアドレス"
-                color="#70C1B3"
+                label="Email"
+                color="#247BA0"
                 :rules="emailRules"
               />
               <v-text-field
                 v-model="password"
-                label="パスワード"
-                color="#70C1B3"
-                counter="8"
+                label="password"
+                color="#247BA0"
                 :rules="passwordRules"
                 append-icon="eye-off"
               />
             </v-form>
-            <v-btn block @click="signUp()">登録</v-btn>
+            <v-row class="float-right">
+              <v-btn dark color="#247BA0" @click="signUp()">登録</v-btn>
+            </v-row>
           </v-col>
         </v-card>
       </v-col>
@@ -107,6 +93,10 @@ export default {
         this.password = ''
         this.overlay = false
       }
+      this.setFlashMessage('登録を完了してサインインしました！')
+    },
+    setFlashMessage(message) {
+      this.$store.commit('flashMessage/setFlashMessage', { message })
     }
   }
 }

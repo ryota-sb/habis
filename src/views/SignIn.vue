@@ -1,30 +1,32 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-toolbar
-            color="#FF7854"
-            dark
-            flat
-            dense
-          >
-            <v-toolbar-title v-text="title" />
-          </v-toolbar>
+  <v-container fill-height>
+    <v-row justify="center" align="center">
+      <v-col
+        xs="12"
+        sm="12"
+        md="6"
+        lg="6"
+      >
+        <v-card flat>
+          <h1 class="text-center font-weight-thin" v-text="title" />
           <v-col>
             <v-form ref="valid_form">
               <v-text-field
                 v-model="email"
-                label="メールアドレス"
-                color="#70C1B3"
+                label="Email"
+                color="#247BA0"
               />
               <v-text-field
                 v-model="password"
-                label="パスワード"
-                color="#70C1B3"
+                label="Password"
+                color="#247BA0"
               />
             </v-form>
-            <v-btn block @click="signIn()">ログイン</v-btn>
+            <v-btn text class="pa-0">パスワードを忘れた方はこちら</v-btn>
+            <v-row class="float-right">
+              <v-btn dark text class="mr-2" color="green" to='/signup'>新規登録</v-btn>
+              <v-btn dark color="#247BA0" @click="signIn()">サインイン</v-btn>
+            </v-row>
           </v-col>
         </v-card>
       </v-col>
@@ -43,9 +45,9 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      title: 'ログイン',
+      title: 'サインイン',
       email: '',
       password: '',
       loading: false,
@@ -58,13 +60,16 @@ export default {
         email: this.email,
         password: this.password
       }
+      this.overlay = true
       if (this.$refs.valid_form.validate()) {
-        this.overlay = true
         this.$store.dispatch('auth/signIn', params)
         this.email = ''
         this.password = ''
-        this.overlay = false
       }
+      this.setFlashMessage('サインインしました！')
+    },
+    setFlashMessage(message) {
+      this.$store.commit('flashMessage/setFlashMessage', { message })
     }
   }
 }

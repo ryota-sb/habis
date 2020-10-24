@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-app-bar app dense clipped-left color="white">
-      <v-toolbar-title class="font-weight-thin" v-text="title" />
-      <v-spacer />
+      <v-toolbar-title class="font-weight-thin" width="100px" v-text="title" />
+      <FlashMessage />
       <v-app-bar-nav-icon @click="drawer=!drawer" class="float--right" />
     </v-app-bar>
     <v-navigation-drawer
@@ -71,9 +71,12 @@
 </template>
 
 <script>
+import FlashMessage from '@/components/FlashMessage.vue'
+
 import { mapState } from 'vuex'
 export default {
-  data() {
+  components: { FlashMessage },
+  data () {
     return {
       title: 'Route',
       drawer: false,
@@ -97,6 +100,10 @@ export default {
     signOut() {
       const params = this.auth
       this.$store.dispatch('auth/signOut', params)
+      this.setFlashMessage('サインアウトしました。')
+    },
+    setFlashMessage(message) {
+      this.$store.commit('flashMessage/setFlashMessage', { message })
     }
   }
 }
