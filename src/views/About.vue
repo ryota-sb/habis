@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <v-row justify="center">
       <v-col
         xs="12"
@@ -32,7 +31,6 @@
     </v-timeline>
       </v-col>
     </v-row>
-  </v-container>
 </template>
 
 <script>
