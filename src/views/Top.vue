@@ -54,18 +54,22 @@ export default {
   data() {
     return {
       buttons: [
-        { name: '新規作成', link: '/signup', color: '#247BA0'},
-        { name: 'ログイン', link: '/signin', color: '#FF7854'},
+        { name: '新規登録', link: '/signup', color: 'green'},
+        { name: 'サインイン', link: '/signin', color: '#247BA0'},
       ]
     }
   },
   methods: {
     testSignIn() {
-      const test_user = {
+      const testUser = {
         email: 'test@example.com',
         password: 'password'
       }
-      this.$store.dispatch('auth/signIn', test_user)
+      this.$store.dispatch('auth/signIn', testUser)
+      this.setFlashMessage('テストユーザーでサインインしました！')
+    },
+    setFlashMessage(message) {
+      this.$store.commit('flashMessage/setFlashMessage', { message })
     }
   }
 }
