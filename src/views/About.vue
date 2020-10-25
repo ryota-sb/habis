@@ -18,13 +18,7 @@
             {{ content.text }}
           </v-card-text>
           <v-card-actions>
-          <v-btn
-              v-if="i == 0"
-              class="green light-1"
-              dark
-            >
-              LINE 友達登録
-            </v-btn>
+            <a v-if="i == 0" href="https://line.me/R/ti/p/@476qfyrd"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
           </v-card-actions>
         </v-card>
       </v-timeline-item>
