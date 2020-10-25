@@ -8,7 +8,7 @@ import axios     from 'axios'
 Vue.config.productionTip = false
 
 const isProd = process.env.NODE_ENV === 'production'
-const baseUrl = isProd ? "https://route-api-1.herokuapp.com/" : "http://localhost:3000"
+const baseUrl = isProd ? "https://route-api-1.herokuapp.com" : "http://localhost:3000"
 axios.defaults.baseURL = baseUrl
 
 new Vue({
