@@ -33,7 +33,7 @@ const auth = {
         console.log(error)
       })
     },
-    async signIn({ commit }, params) {
+    async signIn({ commit, dispatch }, params) {
       await axios.post('api/auth/sign_in', params).then(response => {
         const token = {
           "access-token": response.headers['access-token'],
@@ -41,6 +41,7 @@ const auth = {
           "uid": response.headers['uid'],
           "expiry": response.headers['expiry']
         }
+        console.log(response.data.data.id)
         commit('user', response.data.data)
         commit('auth', token)
         // cookieへ書き込み
@@ -49,6 +50,7 @@ const auth = {
           user: response.data.data
         }
         cookie.set('session', JSON.stringify(contents), { expire: '14D' })
+        // dispatch('accountLink', response.data.data.id)
         router.push({ name: 'about' })
       }).catch(error => {
         console.log(error)
@@ -62,7 +64,14 @@ const auth = {
       }).catch(error => {
         console.log(error)
       })
-    }
+    },
+    // async accountLink(params) {
+    //   await axios.post('account_link', params).then(response => {
+    //     console.log(response)
+    //   }).catch(error => {
+    //     console.log(error)
+    //   })
+    // }
   }
 }
 
