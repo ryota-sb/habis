@@ -50,7 +50,7 @@ const auth = {
           user: response.data.data
         }
         cookie.set('session', JSON.stringify(contents), { expire: '14D' })
-        // dispatch('accountLink', response.data.data.id)
+        dispatch('accountLink', response.data.data.id)
         router.push({ name: 'about' })
       }).catch(error => {
         console.log(error)
@@ -65,13 +65,13 @@ const auth = {
         console.log(error)
       })
     },
-    // async accountLink(params) {
-    //   await axios.post('account_link', params).then(response => {
-    //     console.log(response)
-    //   }).catch(error => {
-    //     console.log(error)
-    //   })
-    // }
+    async accountLink(params) {
+      await axios.post('account_link', params).then(response => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   }
 }
 
